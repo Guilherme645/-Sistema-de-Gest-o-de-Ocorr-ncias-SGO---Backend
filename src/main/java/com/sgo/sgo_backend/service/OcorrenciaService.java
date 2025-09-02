@@ -34,6 +34,20 @@ public class OcorrenciaService {
         return ocorrenciaRepository.findById(id);
     }
 
+    // Método para atualizar uma ocorrência
+    public Optional<Ocorrencia> atualizarOcorrencia(UUID id, Ocorrencia ocorrenciaAtualizada) {
+        return ocorrenciaRepository.findById(id).map(ocorrenciaExistente -> {
+            // Atualiza os campos necessários
+            ocorrenciaExistente.setTitulo(ocorrenciaAtualizada.getTitulo());
+            ocorrenciaExistente.setDescricao(ocorrenciaAtualizada.getDescricao());
+            ocorrenciaExistente.setStatus(ocorrenciaAtualizada.getStatus());
+            // Define a data de atualização
+            ocorrenciaExistente.setDataAtualizacao(LocalDateTime.now());
+            // Salva e retorna a ocorrência atualizada
+            return ocorrenciaRepository.save(ocorrenciaExistente);
+        });
+    }
+
     // Método para deletar uma ocorrência pelo seu ID
     public void deletarOcorrencia(UUID id) {
         ocorrenciaRepository.deleteById(id);

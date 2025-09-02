@@ -36,6 +36,15 @@ public class OcorrenciaController {
                 .orElse(ResponseEntity.notFound().build()); // Se não, retorna 404 Not Found
     }
 
+    // Endpoint para atualizar uma ocorrência (PUT /api/ocorrencias/{id})
+    // Note que este endpoint só será acessível pelo ADMIN, conforme a regra de segurança
+    @PutMapping("/{id}")
+    public ResponseEntity<Ocorrencia> atualizarOcorrencia(@PathVariable UUID id, @RequestBody Ocorrencia ocorrenciaAtualizada) {
+        return ocorrenciaService.atualizarOcorrencia(id, ocorrenciaAtualizada)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     // Endpoint para deletar uma ocorrência por ID (DELETE /api/ocorrencias/{id})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarOcorrencia(@PathVariable UUID id) {
